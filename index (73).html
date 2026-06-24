@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Autimus IA — Industrial Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #0a0c0f;
+    --dark: #111418;
+    --dark2: #181c22;
+    --panel: #1e232c;
+    --border: rgba(255,255,255,0.07);
+    --border-bright: rgba(255,255,255,0.15);
+    --accent: #e8a020;
+    --accent2: #f0b840;
+    --blue: #2a6ef5;
+    --blue-bright: #4f8fff;
+    --teal: #1abeaa;
+    --red: #e03428;
+    --text: #e8e6e1;
+    --muted: #8a8c91;
+    --muted2: #5c5f66;
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Barlow Condensed', sans-serif;
+    --body: 'Barlow', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* GRID OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+    background-size: 60px 60px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(10,12,15,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .logo {
+    font-family: var(--head);
+    text-decoration: none;
+    display: inline-flex;
+    flex-direction: column;
+    line-height: 1.05;
+  }
+  .logo .logo-name {
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: #fff;
+  }
+  .logo .logo-tag {
+    font-family: var(--head);
+    font-weight: 500;
+    font-size: 10.5px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-top: 2px;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-family: var(--head);
+    font-weight: 400;
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--text); }
+
+  .nav-cta {
+    font-family: var(--head);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--accent);
+    padding: 9px 22px;
+    text-decoration: none;
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--accent2); }
+
+  /* HERO */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 120px 48px 80px;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 60% at 70% 50%, rgba(42,110,245,0.08) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 40% at 20% 80%, rgba(232,160,32,0.06) 0%, transparent 60%);
+    z-index: 0;
+  }
+
+  .hero-schematic {
+    position: absolute;
+    right: -40px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 560px;
+    opacity: 0.18;
+    z-index: 0;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 1;
+    max-width: 700px;
+  }
+
+  .hero-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+  }
+  .hero-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  h1 {
+    font-family: var(--head);
+    font-size: clamp(56px, 8vw, 96px);
+    font-weight: 900;
+    line-height: 0.92;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 28px;
+  }
+
+  h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+
+  .hero-desc {
+    font-size: 17px;
+    font-weight: 300;
+    color: var(--muted);
+    max-width: 520px;
+    margin-bottom: 48px;
+    line-height: 1.7;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .btn-primary {
+    font-family: var(--head);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--accent);
+    padding: 14px 36px;
+    text-decoration: none;
+    transition: all 0.2s;
+    display: inline-block;
+  }
+  .btn-primary:hover {
+    background: var(--accent2);
+    transform: translateY(-1px);
+  }
+
+  .btn-ghost {
+    font-family: var(--head);
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--text); }
+  .btn-ghost::after {
+    content: '→';
+    transition: transform 0.2s;
+  }
+  .btn-ghost:hover::after { transform: translateX(4px); }
+
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    margin-top: 72px;
+    padding-top: 40px;
+    border-top: 1px solid var(--border);
+  }
+
+  .stat-num {
+    font-family: var(--head);
+    font-size: 42px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+  .stat-num span { color: var(--accent); }
+
+  /* MARQUEE TICKER */
+  .ticker {
+    background: var(--accent);
+    padding: 10px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  .ticker-track {
+    display: flex;
+    gap: 0;
+    animation: ticker 30s linear infinite;
+    width: max-content;
+  }
+  .ticker-item {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding: 0 32px;
+    font-family: var(--head);
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--black);
+    white-space: nowrap;
+  }
+  .ticker-dot {
+    width: 5px;
+    height: 5px;
+    background: rgba(0,0,0,0.4);
+    border-radius: 50%;
+  }
+  @keyframes ticker {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SECTION BASE */
+  section {
+    position: relative;
+    z-index: 1;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 48px;
+  }
+
+  .section-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  .section-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+
+  /* SERVICES */
+  .services {
+    padding: 120px 0;
+  }
+
+  .services-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: end;
+    margin-bottom: 64px;
+  }
+
+  h2 {
+    font-family: var(--head);
+    font-size: clamp(36px, 5vw, 60px);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #fff;
+  }
+
+  .section-desc {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 380px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--border);
+  }
+
+  .service-card {
+    background: var(--dark);
+    padding: 40px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s;
+    cursor: default;
+  }
+
+  .service-card:hover {
+    background: var(--dark2);
+  }
+
+  .service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s;
+  }
+  .service-card:hover::after { transform: scaleX(1); }
+
+  .service-icon {
+    width: 48px;
+    height: 48px;
+    margin-bottom: 28px;
+    color: var(--accent);
+  }
+
+  .service-num {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted2);
+    letter-spacing: 0.1em;
+    margin-bottom: 12px;
+  }
+
+  .service-title {
+    font-family: var(--head);
+    font-size: 22px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 12px;
+    line-height: 1.1;
+  }
+
+  .service-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.65;
+    margin-bottom: 20px;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .tag {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--blue-bright);
+    background: rgba(42,110,245,0.1);
+    padding: 3px 8px;
+    border: 1px solid rgba(42,110,245,0.2);
+  }
+
+  /* PROCESS */
+  .process {
+    padding: 120px 0;
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .process-steps {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    margin-top: 64px;
+    position: relative;
+  }
+
+  .process-steps::before {
+    content: '';
+    position: absolute;
+    top: 36px;
+    left: 10%;
+    right: 10%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-bright), transparent);
+    z-index: 0;
+  }
+
+  .process-step {
+    padding: 0 28px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .step-circle {
+    width: 72px;
+    height: 72px;
+    border: 1px solid var(--border-bright);
+    background: var(--black);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 28px;
+    position: relative;
+  }
+
+  .step-circle.active {
+    border-color: var(--accent);
+    background: rgba(232,160,32,0.08);
+  }
+
+  .step-num {
+    font-family: var(--head);
+    font-size: 28px;
+    font-weight: 900;
+    color: var(--muted2);
+  }
+  .step-circle.active .step-num { color: var(--accent); }
+
+  .step-title {
+    font-family: var(--head);
+    font-size: 17px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #fff;
+    margin-bottom: 10px;
+  }
+
+  .step-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* INDUSTRIES */
+  .industries {
+    padding: 120px 0;
+  }
+
+  .industries-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+
+  .industry-card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 32px;
+    display: flex;
+    align-items: flex-start;
+    gap: 24px;
+    transition: border-color 0.3s;
+  }
+  .industry-card:hover { border-color: var(--border-bright); }
+
+  .industry-icon-wrap {
+    width: 56px;
+    height: 56px;
+    background: rgba(232,160,32,0.08);
+    border: 1px solid rgba(232,160,32,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent);
+    font-size: 22px;
+  }
+
+  .industry-title {
+    font-family: var(--head);
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: #fff;
+    margin-bottom: 8px;
+  }
+
+  .industry-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* CONTACT */
+  .contact {
+    padding: 120px 0;
+  }
+
+  .contact-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+
+  .contact-info h2 {
+    margin-bottom: 20px;
+  }
+
+  .contact-info p {
+    font-size: 16px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.7;
+    margin-bottom: 40px;
+  }
+
+  .contact-detail {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .contact-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .contact-item-icon {
+    width: 40px;
+    height: 40px;
+    background: rgba(232,160,32,0.1);
+    border: 1px solid rgba(232,160,32,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: var(--accent);
+    font-size: 16px;
+  }
+
+  .contact-item-text {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text);
+  }
+
+  .contact-item-label {
+    font-size: 11px;
+    color: var(--muted2);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 2px;
+  }
+
+  /* FORM */
+  .contact-form {
+    background: var(--dark2);
+    border: 1px solid var(--border);
+    padding: 40px;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--dark);
+    border: 1px solid var(--border);
+    color: var(--text);
+    font-family: var(--body);
+    font-size: 14px;
+    padding: 11px 16px;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    appearance: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus {
+    border-color: var(--accent);
+  }
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-submit {
+    font-family: var(--head);
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--black);
+    background: var(--accent);
+    border: none;
+    padding: 14px 36px;
+    cursor: pointer;
+    width: 100%;
+    transition: background 0.2s;
+  }
+  .form-submit:hover { background: var(--accent2); }
+
+  /* FOOTER */
+  footer {
+    background: var(--dark);
+    border-top: 1px solid var(--border);
+    padding: 60px 0 32px;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 48px;
+    margin-bottom: 56px;
+  }
+
+  .footer-brand .logo {
+    display: inline-flex;
+    margin-bottom: 16px;
+  }
+
+  .footer-desc {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    line-height: 1.65;
+    max-width: 260px;
+  }
+
+  .footer-col h4 {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--muted2);
+    margin-bottom: 20px;
+  }
+
+  .footer-links {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .footer-links a {
+    font-size: 14px;
+    font-weight: 300;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+  .footer-links a:hover { color: var(--text); }
+
+  .footer-bottom {
+    border-top: 1px solid var(--border);
+    padding-top: 28px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--muted2);
+    letter-spacing: 0.06em;
+  }
+
+  .footer-norma {
+    display: flex;
+    gap: 16px;
+  }
+  .norma-badge {
+    font-family: var(--mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    color: var(--muted2);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hero-content > * {
+    opacity: 0;
+    animation: fadeUp 0.7s ease forwards;
+  }
+  .hero-tag { animation-delay: 0.1s; }
+  h1 { animation-delay: 0.25s; }
+  .hero-desc { animation-delay: 0.4s; }
+  .hero-actions { animation-delay: 0.55s; }
+  .hero-stats { animation-delay: 0.7s; }
+
+  /* SCHEMATIC SVG */
+  .schematic-line { animation: dash 4s linear infinite; }
+  @keyframes dash {
+    from { stroke-dashoffset: 100; }
+    to { stroke-dashoffset: 0; }
+  }
+
+  /* NAV TOGGLE (mobile hamburger) */
+  .nav-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: center;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    z-index: 101;
+  }
+  .nav-toggle span {
+    display: block;
+    width: 100%;
+    height: 2px;
+    background: var(--text);
+    transition: transform 0.25s ease, opacity 0.25s ease;
+  }
+  .nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+  .nav-toggle.open span:nth-child(2) { opacity: 0; }
+  .nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+  /* =========================================================
+     RESPONSIVE / MOBILE
+     ========================================================= */
+  @media (max-width: 1024px) {
+    .container { padding: 0 32px; }
+    .hero { padding: 110px 32px 64px; }
+    nav { padding: 0 24px; }
+
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .process-steps { grid-template-columns: repeat(2, 1fr); gap: 48px 0; }
+    .process-steps::before { display: none; }
+    .industries-grid { grid-template-columns: 1fr; }
+    .footer-top { grid-template-columns: 1fr 1fr; gap: 40px 24px; }
+  }
+
+  @media (max-width: 860px) {
+    /* NAV */
+    nav { padding: 0 20px; }
+    .nav-links {
+      position: fixed;
+      top: 64px;
+      left: 0;
+      right: 0;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0;
+      background: rgba(10,12,15,0.98);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      max-height: 0;
+      overflow: hidden;
+      visibility: hidden;
+      transition: max-height 0.3s ease;
+    }
+    .nav-links.open { max-height: 70vh; visibility: visible; overflow-y: auto; }
+    .nav-links li { width: 100%; }
+    .nav-links a {
+      display: block;
+      padding: 16px 24px;
+      width: 100%;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .nav-cta { display: none; }
+    .nav-toggle { display: flex; }
+
+    /* HERO */
+    .hero { min-height: auto; padding: 100px 20px 56px; }
+    .hero-schematic { display: none; }
+    .hero-content { max-width: 100%; }
+    .hero-desc { max-width: 100%; font-size: 16px; }
+    .hero-actions { flex-wrap: wrap; gap: 14px; }
+    .hero-stats { flex-wrap: wrap; gap: 32px 40px; margin-top: 56px; }
+
+    .container { padding: 0 20px; }
+
+    /* SERVICES */
+    .services { padding: 64px 0; }
+    .services-header { grid-template-columns: 1fr; gap: 20px; align-items: start; margin-bottom: 40px; }
+    .section-desc { max-width: 100%; }
+    .services-grid { grid-template-columns: 1fr; }
+    .service-card { padding: 28px 24px; }
+    .service-icon { width: 36px; height: 36px; margin-bottom: 16px; }
+    .service-desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 14px;
+    }
+
+    /* PROCESS */
+    .process { padding: 64px 0; }
+    .process-steps { grid-template-columns: 1fr; gap: 28px; margin-top: 36px; }
+    .process-step {
+      padding: 0;
+      display: grid;
+      grid-template-columns: 48px 1fr;
+      grid-template-rows: auto auto;
+      column-gap: 16px;
+      row-gap: 4px;
+      align-items: start;
+    }
+    .step-circle { width: 48px; height: 48px; margin-bottom: 0; grid-row: 1 / 3; }
+    .step-num { font-size: 18px; }
+    .step-title { grid-column: 2; }
+    .step-desc {
+      grid-column: 2;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* INDUSTRIES */
+    .industries { padding: 64px 0; }
+    .industries-grid { margin-top: 32px; gap: 12px; }
+    .industry-card { padding: 18px; gap: 14px; }
+    .industry-icon-wrap { width: 44px; height: 44px; font-size: 18px; }
+    .industry-icon-wrap svg { width: 20px; height: 20px; }
+    .industry-desc {
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+    }
+
+    /* CONTACT */
+    .contact { padding: 64px 0; }
+    .contact-inner { grid-template-columns: 1fr; gap: 48px; }
+    .contact-form { padding: 28px; }
+    .form-row { grid-template-columns: 1fr; gap: 0; }
+
+    /* FOOTER */
+    .footer-top {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 28px 16px;
+    }
+    .footer-brand { grid-column: 1 / -1; }
+    .footer-desc { max-width: 100%; }
+    .footer-col h4 { margin-bottom: 12px; }
+    .footer-links { gap: 8px; }
+    .footer-links a { font-size: 13px; }
+    .footer-bottom { flex-direction: column; align-items: flex-start; gap: 12px; }
+  }
+
+  @media (max-width: 480px) {
+    h1 { font-size: clamp(40px, 13vw, 56px); }
+    .hero-tag { font-size: 10px; }
+    .hero-stats { gap: 28px 32px; }
+    .stat-num { font-size: 34px; }
+    .btn-primary, .btn-ghost { font-size: 13px; }
+    .btn-primary { padding: 13px 28px; }
+
+    h2 { font-size: clamp(30px, 9vw, 42px); }
+    .service-card { padding: 32px 24px; }
+    .industry-card { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="logo"><span class="logo-name">AUTIMUS</span><span class="logo-tag">Industrial Automation</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#servicios">Servicios</a></li>
+    <li><a href="#proceso">Metodología</a></li>
+    <li><a href="#industrias">Industrias</a></li>
+    <li><a href="#contacto">Contacto</a></li>
+  </ul>
+  <a href="#contacto" class="nav-cta">Contacto</a>
+  <button class="nav-toggle" id="navToggle" aria-label="Abrir menú" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+
+  <!-- Schematic SVG background -->
+  <svg class="hero-schematic" viewBox="0 0 500 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="40" width="80" height="50" stroke="white" stroke-width="1"/>
+    <text x="80" y="70" fill="white" font-size="10" font-family="monospace" text-anchor="middle">PLC</text>
+    <rect x="220" y="40" width="80" height="50" stroke="white" stroke-width="1"/>
+    <text x="260" y="70" fill="white" font-size="10" font-family="monospace" text-anchor="middle">SCADA</text>
+    <rect x="380" y="180" width="80" height="50" stroke="white" stroke-width="1"/>
+    <text x="420" y="210" fill="white" font-size="10" font-family="monospace" text-anchor="middle">HMI</text>
+    <rect x="40" y="280" width="80" height="50" stroke="white" stroke-width="1"/>
+    <text x="80" y="310" fill="white" font-size="10" font-family="monospace" text-anchor="middle">DRIVE</text>
+    <rect x="220" y="380" width="80" height="50" stroke="white" stroke-width="1"/>
+    <text x="260" y="410" fill="white" font-size="10" font-family="monospace" text-anchor="middle">VISION</text>
+    <rect x="180" y="190" width="100" height="60" stroke="#e8a020" stroke-width="1.5"/>
+    <text x="230" y="225" fill="#e8a020" font-size="10" font-family="monospace" text-anchor="middle">AUTIMUS</text>
+    <line x1="120" y1="65" x2="220" y2="65" stroke="white" stroke-width="1" stroke-dasharray="6,4" class="schematic-line"/>
+    <line x1="300" y1="65" x2="380" y2="195" stroke="white" stroke-width="1" stroke-dasharray="6,4" class="schematic-line"/>
+    <line x1="120" y1="305" x2="180" y2="230" stroke="white" stroke-width="1" stroke-dasharray="6,4" class="schematic-line"/>
+    <line x1="280" y1="220" x2="380" y2="205" stroke="white" stroke-width="1" stroke-dasharray="6,4" class="schematic-line"/>
+    <line x1="260" y1="250" x2="260" y2="380" stroke="white" stroke-width="1" stroke-dasharray="6,4" class="schematic-line"/>
+    <line x1="80" y1="90" x2="80" y2="280" stroke="white" stroke-width="1" stroke-dasharray="6,4" class="schematic-line"/>
+    <circle cx="80" cy="65" r="3" fill="#e8a020"/>
+    <circle cx="260" cy="65" r="3" fill="#e8a020"/>
+    <circle cx="420" cy="205" r="3" fill="#2a6ef5"/>
+    <circle cx="80" cy="305" r="3" fill="#2a6ef5"/>
+    <circle cx="260" cy="405" r="3" fill="#1abeaa"/>
+  </svg>
+
+  <div class="hero-content">
+    <div class="hero-tag">Autimus Industrial Automation · IIoT · Integración de Sistemas</div>
+    <h1>Inteligencia<br>detrás de<br>la <em>producción</em></h1>
+    <p class="hero-desc">
+      Diseñamos, integramos y ponemos en marcha soluciones de automatización industrial de alta performance — desde la lógica del PLC hasta el tablero ejecutivo.
+    </p>
+    <div class="hero-actions">
+      <a href="#contacto" class="btn-primary">Hablar con un especialista</a>
+      <a href="#servicios" class="btn-ghost">Ver servicios</a>
+    </div>
+    <div class="hero-stats">
+      <div>
+        <div class="stat-num">+20<span>años</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item">PLCs & PACs <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Drives & Variadores <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Seguridad Funcional SIL <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Visión Artificial <div class="ticker-dot"></div></div>
+    <div class="ticker-item">SCADA & HMI <div class="ticker-dot"></div></div>
+    <div class="ticker-item">IIoT & Industria 4.0 <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Redes Industriales <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Integración MES / ERP <div class="ticker-dot"></div></div>
+    <div class="ticker-item">PLCs & PACs <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Drives & Variadores <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Seguridad Funcional SIL <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Visión Artificial <div class="ticker-dot"></div></div>
+    <div class="ticker-item">SCADA & HMI <div class="ticker-dot"></div></div>
+    <div class="ticker-item">IIoT & Industria 4.0 <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Redes Industriales <div class="ticker-dot"></div></div>
+    <div class="ticker-item">Integración MES / ERP <div class="ticker-dot"></div></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section class="services" id="servicios">
+  <div class="container">
+    <div class="services-header">
+      <div>
+        <div class="section-tag">Servicios</div>
+        <h2>Soluciones<br>integrales de<br>automatización</h2>
+      </div>
+      <p class="section-desc">
+        Cubrimos el ciclo completo del proyecto: desde la ingeniería conceptual hasta la puesta en marcha y el soporte post-venta. Un único interlocutor técnico para toda la solución.
+      </p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="8" y="14" width="32" height="24" rx="1"/>
+          <line x1="8" y1="20" x2="40" y2="20"/>
+          <circle cx="13" cy="17" r="1.5" fill="currentColor"/>
+          <circle cx="18" cy="17" r="1.5" fill="currentColor"/>
+          <line x1="16" y1="28" x2="22" y2="28"/>
+          <line x1="26" y1="28" x2="32" y2="28"/>
+          <line x1="16" y1="32" x2="28" y2="32"/>
+          <line x1="22" y1="8" x2="22" y2="14"/>
+          <line x1="26" y1="8" x2="26" y2="14"/>
+        </svg>
+        <div class="service-num">01</div>
+        <div class="service-title">PLCs & Sistemas de Control</div>
+        <p class="service-desc">Programación y puesta en marcha de controladores lógicos programables para procesos continuos, discretos e híbridos. Migración de plataformas legacy.</p>
+        <div class="service-tags">
+          <span class="tag">Siemens S7</span>
+          <span class="tag">Allen-Bradley</span>
+          <span class="tag">Omron</span>
+          <span class="tag">Mitsubishi</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <circle cx="24" cy="24" r="10"/>
+          <circle cx="24" cy="24" r="4"/>
+          <line x1="24" y1="6" x2="24" y2="14"/>
+          <line x1="24" y1="34" x2="24" y2="42"/>
+          <line x1="6" y1="24" x2="14" y2="24"/>
+          <line x1="34" y1="24" x2="42" y2="24"/>
+          <path d="M12 12 L18 18"/>
+          <path d="M30 30 L36 36"/>
+        </svg>
+        <div class="service-num">02</div>
+        <div class="service-title">Drives & Accionamientos</div>
+        <p class="service-desc">Parametrización, integración y diagnóstico de variadores de frecuencia y servosistemas. Optimización de curvas de par, inercia y eficiencia energética.</p>
+        <div class="service-tags">
+          <span class="tag">ABB</span>
+          <span class="tag">Danfoss</span>
+          <span class="tag">SEW</span>
+          <span class="tag">Yaskawa</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M24 8 L38 16 L38 32 L24 40 L10 32 L10 16 Z"/>
+          <path d="M24 14 L32 18 L32 30 L24 34 L16 30 L16 18 Z"/>
+          <circle cx="24" cy="24" r="3"/>
+        </svg>
+        <div class="service-num">03</div>
+        <div class="service-title">Seguridad Funcional</div>
+        <p class="service-desc">Diseño e implementación de sistemas de seguridad de maquinaria según ISO 13849 y IEC 62061. Análisis de riesgo, relés de seguridad y PLCs safety-rated hasta SIL 3 / PL e.</p>
+        <div class="service-tags">
+          <span class="tag">ISO 13849</span>
+          <span class="tag">IEC 62061</span>
+          <span class="tag">Pilz</span>
+          <span class="tag">Sick</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="10" y="16" width="20" height="16" rx="1"/>
+          <circle cx="20" cy="24" r="5"/>
+          <circle cx="20" cy="24" r="1.5" fill="currentColor"/>
+          <line x1="30" y1="22" x2="38" y2="18"/>
+          <line x1="30" y1="26" x2="38" y2="30"/>
+          <circle cx="39" cy="17" r="2"/>
+          <circle cx="39" cy="31" r="2"/>
+        </svg>
+        <div class="service-num">04</div>
+        <div class="service-title">Visión Artificial</div>
+        <p class="service-desc">Sistemas de inspección y guiado por cámara industrial: detección de defectos, lectura de códigos, OCR, guiado de robots y verificación de ensamble.</p>
+        <div class="service-tags">
+          <span class="tag">Cognex</span>
+          <span class="tag">Keyence</span>
+          <span class="tag">Basler</span>
+          <span class="tag">OpenCV</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="8" y="8" width="32" height="22" rx="1"/>
+          <line x1="8" y1="15" x2="40" y2="15"/>
+          <polyline points="14,20 18,26 22,22 26,28 32,23" stroke-width="1.5"/>
+          <rect x="14" y="34" width="20" height="8"/>
+          <line x1="24" y1="30" x2="24" y2="34"/>
+        </svg>
+        <div class="service-num">05</div>
+        <div class="service-title">SCADA & HMI</div>
+        <p class="service-desc">Desarrollo de supervisión y control en tiempo real. Dashboards operativos, alarmas, historización de datos y reportes de producción. Integración con bases de datos industriales.</p>
+        <div class="service-tags">
+          <span class="tag">Ignition</span>
+          <span class="tag">WinCC</span>
+          <span class="tag">FactoryTalk</span>
+          <span class="tag">InTouch</span>
+        </div>
+      </div>
+
+      <div class="service-card">
+        <svg class="service-icon" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5">
+          <rect x="10" y="20" width="12" height="12" rx="1"/>
+          <rect x="26" y="8" width="12" height="12" rx="1"/>
+          <rect x="26" y="32" width="12" height="12" rx="1"/>
+          <line x1="22" y1="26" x2="26" y2="14"/>
+          <line x1="22" y1="26" x2="26" y2="38"/>
+          <circle cx="16" cy="26" r="2" fill="currentColor"/>
+          <circle cx="32" cy="14" r="2" fill="currentColor"/>
+          <circle cx="32" cy="38" r="2" fill="currentColor"/>
+        </svg>
+        <div class="service-num">06</div>
+        <div class="service-title">IIoT & Integración</div>
+        <p class="service-desc">Conectividad de planta al ecosistema digital empresarial. Protocolo OPC-UA, MQTT, REST APIs. Integración con MES, ERP y plataformas cloud industriales.</p>
+        <div class="service-tags">
+          <span class="tag">OPC-UA</span>
+          <span class="tag">MQTT</span>
+          <span class="tag">AWS IoT</span>
+          <span class="tag">Azure</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="proceso">
+  <div class="container">
+    <div class="section-tag">Metodología</div>
+    <h2>Nuestro proceso</h2>
+
+    <div class="process-steps">
+      <div class="process-step">
+        <div class="step-circle active">
+          <span class="step-num">01</span>
+        </div>
+        <div class="step-title">Relevamiento</div>
+        <p class="step-desc">Visita a planta, análisis de proceso y relevamiento de arquitectura eléctrica y de control existente. Identificación de brechas y oportunidades.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle">
+          <span class="step-num">02</span>
+        </div>
+        <div class="step-title">Ingeniería</div>
+        <p class="step-desc">Diseño de la solución: arquitectura de hardware, especificación de software, P&IDs, planos eléctricos y documentación funcional.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle">
+          <span class="step-num">03</span>
+        </div>
+        <div class="step-title">Desarrollo & FAT</div>
+        <p class="step-desc">Programación, integración y pruebas en taller con simulación del proceso. Factory Acceptance Test con el cliente antes del traslado a planta.</p>
+      </div>
+      <div class="process-step">
+        <div class="step-circle">
+          <span class="step-num">04</span>
+        </div>
+        <div class="step-title">Puesta en Marcha</div>
+        <p class="step-desc">Instalación, comisionado en campo, SAT y capacitación del personal operativo. Soporte técnico post-puesta en marcha incluido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INDUSTRIES -->
+<section class="industries" id="industrias">
+  <div class="container">
+    <div class="section-tag">Industrias</div>
+    <h2>Sectores<br>que atendemos</h2>
+
+    <div class="industries-grid">
+      <div class="industry-card">
+        <div class="industry-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 21h18M5 21V7l7-4 7 4v14M9 21v-6h6v6"/>
+          </svg>
+        </div>
+        <div>
+          <div class="industry-title">Alimentos & Bebidas</div>
+          <p class="industry-desc">Líneas de proceso, pasteurización, dosificación, envasado y etiquetado. Control de temperatura y trazabilidad por lote. HACCP.</p>
+        </div>
+      </div>
+
+      <div class="industry-card">
+        <div class="industry-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <circle cx="12" cy="12" r="3"/>
+            <path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/>
+          </svg>
+        </div>
+        <div>
+          <div class="industry-title">Energía & Utilities</div>
+          <p class="industry-desc">Subestaciones, generación distribuida, BMS para edificios industriales, sistemas de compresión y tratamiento de agua.</p>
+        </div>
+      </div>
+
+      <div class="industry-card">
+        <div class="industry-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="2" y="7" width="20" height="14" rx="1"/>
+            <path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>
+            <line x1="12" y1="12" x2="12" y2="16"/>
+            <line x1="10" y1="14" x2="14" y2="14"/>
+          </svg>
+        </div>
+        <div>
+          <div class="industry-title">Farmacéutica & Laboratorio</div>
+          <p class="industry-desc">Automatización de procesos regulados. Sistemas 21 CFR Part 11, validación IQ/OQ/PQ, salas limpias y fluidos críticos.</p>
+        </div>
+      </div>
+
+      <div class="industry-card">
+        <div class="industry-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+          </svg>
+        </div>
+        <div>
+          <div class="industry-title">Manufactura & Metal-Mecánica</div>
+          <p class="industry-desc">Células robotizadas, líneas de mecanizado CNC, prensas, soldadura automatizada y control de calidad por visión.</p>
+        </div>
+      </div>
+
+      <div class="industry-card">
+        <div class="industry-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+        </div>
+        <div>
+          <div class="industry-title">Minería & Petroquímica</div>
+          <p class="industry-desc">Control de procesos en ambientes hazardous, sistemas ATEX, telecontrol remoto y gestión de activos críticos.</p>
+        </div>
+      </div>
+
+      <div class="industry-card">
+        <div class="industry-icon-wrap">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+            <rect x="1" y="3" width="15" height="13"/>
+            <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"/>
+            <circle cx="5.5" cy="18.5" r="2.5"/>
+            <circle cx="18.5" cy="18.5" r="2.5"/>
+          </svg>
+        </div>
+        <div>
+          <div class="industry-title">Logística & Almacenamiento</div>
+          <p class="industry-desc">WCS para sorters, transportadores, AS/RS y picking automatizado. Integración con WMS y ERP para trazabilidad end-to-end.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contacto">
+  <div class="container">
+    <div class="contact-inner">
+      <div class="contact-info">
+        <div class="section-tag">Contacto</div>
+        <h2>Hablemos<br>de tu proyecto</h2>
+        <p>Contanos el desafío que tenés en planta. Nuestros ingenieros analizan tu caso sin cargo y te presentamos una propuesta concreta.</p>
+        <div class="contact-detail">
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.4 2 2 0 0 1 3.6 1.22h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.8a16 16 0 0 0 6 6l.86-.86a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 21.5 16z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Teléfono</div>
+              <div class="contact-item-text">+54 11 4000-0000</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+                <polyline points="22,6 12,13 2,6"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Email</div>
+              <div class="contact-item-text">ingenieria@autimus.net.ar</div>
+            </div>
+          </div>
+          <div class="contact-item">
+            <div class="contact-item-icon">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div>
+              <div class="contact-item-label">Oficina central</div>
+              <div class="contact-item-text">Buenos Aires, Argentina</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="contact-form">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nombre</label>
+            <input type="text" placeholder="Juan García">
+          </div>
+          <div class="form-group">
+            <label>Empresa</label>
+            <input type="text" placeholder="Industrias S.A.">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" placeholder="juan@empresa.com.ar">
+        </div>
+        <div class="form-group">
+          <label>Área de interés</label>
+          <select>
+            <option value="">Seleccioná un servicio</option>
+            <option>PLCs & Sistemas de Control</option>
+            <option>Drives & Accionamientos</option>
+            <option>Seguridad Funcional</option>
+            <option>Visión Artificial</option>
+            <option>SCADA & HMI</option>
+            <option>IIoT & Integración de Sistemas</option>
+            <option>Proyecto integral</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Descripción del proyecto</label>
+          <textarea placeholder="Contanos brevemente qué proceso necesitás automatizar o integrar..."></textarea>
+        </div>
+        <button class="form-submit" onclick="alert('¡Mensaje enviado! Nuestro equipo se contactará en menos de 24 horas.')">
+          Enviar consulta →
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a href="#" class="logo"><span class="logo-name">AUTIMUS</span><span class="logo-tag">Industrial Automation</span></a>
+        <p class="footer-desc">Ingeniería de automatización e integración de sistemas industriales. Tecnología que conecta el proceso con los resultados.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Servicios</h4>
+        <ul class="footer-links">
+          <li><a href="#servicios">PLCs & Control</a></li>
+          <li><a href="#servicios">Drives</a></li>
+          <li><a href="#servicios">Seguridad Funcional</a></li>
+          <li><a href="#servicios">Visión Artificial</a></li>
+          <li><a href="#servicios">SCADA & HMI</a></li>
+          <li><a href="#servicios">IIoT</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Industrias</h4>
+        <ul class="footer-links">
+          <li><a href="#industrias">Alimentos & Bebidas</a></li>
+          <li><a href="#industrias">Farmacéutica</a></li>
+          <li><a href="#industrias">Manufactura</a></li>
+          <li><a href="#industrias">Energía</a></li>
+          <li><a href="#industrias">Minería</a></li>
+          <li><a href="#industrias">Logística</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Empresa</h4>
+        <ul class="footer-links">
+          <li><a href="#">Nosotros</a></li>
+          <li><a href="#">Metodología</a></li>
+          <li><a href="#">Casos de éxito</a></li>
+          <li><a href="#">Certificaciones</a></li>
+          <li><a href="#contacto">Contacto</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div class="footer-copy">© 2025 Autimus IA · Todos los derechos reservados · Buenos Aires, Argentina</div>
+    </div>
+  </div>
+</footer>
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => {
+    const isOpen = navLinks.classList.toggle('open');
+    navToggle.classList.toggle('open', isOpen);
+    navToggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+  });
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => {
+      navLinks.classList.remove('open');
+      navToggle.classList.remove('open');
+      navToggle.setAttribute('aria-expanded', 'false');
+    });
+  });
+</script>
+
+</body>
+</html>
