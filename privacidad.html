@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Política de Privacidad | Autimus IA</title>
+<meta name="description" content="Política de privacidad de Autimus IA: cómo recolectamos, usamos y protegemos los datos enviados a través de nuestro formulario de contacto.">
+<meta name="robots" content="index, follow">
+<link rel="canonical" href="https://www.autimus.net.ar/privacidad.html">
+
+<link rel="icon" type="image/x-icon" href="images/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="images/favicon-180.png">
+
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --black: #11141a;
+    --dark: #1a1e25;
+    --dark2: #232830;
+    --panel: #2a3039;
+    --border: rgba(255,255,255,0.10);
+    --border-bright: rgba(255,255,255,0.20);
+    --accent: #e8a020;
+    --accent2: #f0b840;
+    --blue-bright: #4f8fff;
+    --text: #f4f3f0;
+    --muted: #b4b7bd;
+    --muted2: #8f9298;
+    --mono: 'Share Tech Mono', monospace;
+    --head: 'Barlow Condensed', sans-serif;
+    --body: 'Barlow', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: var(--body);
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* NAV */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 48px;
+    height: 64px;
+    background: rgba(26,30,37,0.95);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+  }
+  .logo {
+    font-family: var(--head);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo img { height: 40px; width: auto; display: block; }
+  .logo-text { display: inline-flex; flex-direction: column; line-height: 1.05; }
+  .logo-text .logo-name {
+    font-size: 21px; font-weight: 700; letter-spacing: 0.1em; color: #fff;
+  }
+  .logo-text .logo-tag {
+    font-weight: 500; font-size: 10px; letter-spacing: 0.13em;
+    text-transform: uppercase; color: var(--accent2); margin-top: 3px;
+  }
+  .back-link {
+    font-family: var(--head);
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.2s;
+  }
+  .back-link:hover { color: var(--text); }
+
+  /* CONTENT */
+  .legal-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 72px 24px 100px;
+  }
+  .legal-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--accent);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .legal-tag::before {
+    content: '';
+    display: inline-block;
+    width: 20px;
+    height: 1px;
+    background: var(--accent);
+  }
+  h1 {
+    font-family: var(--head);
+    font-size: clamp(32px, 5vw, 46px);
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #fff;
+    margin-bottom: 12px;
+  }
+  .legal-updated {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    color: var(--muted2);
+    margin-bottom: 48px;
+  }
+  .legal-section {
+    margin-bottom: 36px;
+  }
+  .legal-section h2 {
+    font-family: var(--head);
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+  .legal-section p {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 14px;
+  }
+  .legal-section ul {
+    margin: 0 0 14px 0;
+    padding-left: 20px;
+  }
+  .legal-section li {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .legal-section a {
+    color: var(--blue-bright);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(79,143,255,0.3);
+  }
+  .legal-section a:hover { border-bottom-color: var(--blue-bright); }
+  .legal-section strong { color: var(--text); font-weight: 600; }
+
+  .legal-box {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    padding: 24px;
+    margin-top: 24px;
+  }
+  .legal-box p { color: var(--muted); margin-bottom: 0; font-size: 14px; }
+  .legal-box p + p { margin-top: 8px; }
+
+  /* FOOTER */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 24px;
+    text-align: center;
+  }
+  .footer-copy {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted2);
+    letter-spacing: 0.02em;
+  }
+
+  @media (max-width: 600px) {
+    nav { padding: 0 20px; }
+    .logo-text { display: none; }
+    .legal-wrap { padding: 48px 20px 72px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="logo">
+    <img src="images/icon-autimus-light.webp" alt="Autimus IA">
+    <span class="logo-text"><span class="logo-name">AUTIMUS</span><span class="logo-tag">Industrial Automation</span></span>
+  </a>
+  <a href="index.html" class="back-link">← Volver al sitio</a>
+</nav>
+
+<main class="legal-wrap">
+  <div class="legal-tag">Información legal</div>
+  <h1>Política de Privacidad</h1>
+  <p class="legal-updated">Última actualización: junio de 2026</p>
+
+  <div class="legal-section">
+    <p>En <strong>Autimus IA</strong> valoramos la privacidad de las personas y empresas que se contactan con nosotros. Esta Política de Privacidad describe de forma clara cómo recolectamos, usamos y protegemos la información personal que nos brindás a través de nuestro formulario de contacto y demás canales digitales.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>1. Información que recolectamos</h2>
+    <p>A través de nuestro formulario de contacto recolectamos datos como nombre, empresa, correo electrónico y la descripción del proyecto o consulta enviada, con el único fin de responder a la solicitud realizada y brindar información sobre nuestros servicios de automatización industrial e integración de sistemas.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>2. Autorización y uso de la información</h2>
+    <p>Al completar nuestro formulario, la persona <strong>autoriza expresamente a Autimus IA</strong> a utilizar la información provista exclusivamente para:</p>
+    <ul>
+      <li>Responder a la consulta o solicitud de información enviada a través del formulario.</li>
+      <li>Brindar asesoramiento técnico sobre nuestros servicios (PLCs, drives, SCADA/HMI, visión artificial, seguridad funcional e IIoT).</li>
+      <li>Elaborar propuestas o presupuestos relacionados con el proyecto consultado.</li>
+    </ul>
+    <p>No utilizamos los datos recibidos para ningún otro fin que no sea el tratamiento de la consulta puntual realizada por la persona o empresa.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>3. Protección y almacenamiento</h2>
+    <p>Tus datos son tratados de forma confidencial y utilizados únicamente para los fines mencionados en esta política. No son compartidos, vendidos ni cedidos a terceros, excepto cuando sea estrictamente necesario para responder a tu consulta (por ejemplo, proveedores tecnológicos que operan nuestro formulario de contacto) o por requerimiento legal de autoridad competente.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>4. Derechos del titular de los datos</h2>
+    <p>En cumplimiento con la <strong>Ley 25.326 de Protección de Datos Personales</strong> de la República Argentina, podés ejercer en cualquier momento tus derechos de acceso, rectificación, actualización o supresión de tus datos personales, enviando un correo electrónico a <a href="mailto:ingenieria@autimus.net.ar">ingenieria@autimus.net.ar</a> o comunicándote a nuestro teléfono de contacto.</p>
+    <p>La Agencia de Acceso a la Información Pública, en su carácter de Órgano de Control de la Ley 25.326, tiene la atribución de atender las denuncias y reclamos que se interpongan con relación al incumplimiento de las normas sobre protección de datos personales.</p>
+  </div>
+
+  <div class="legal-section">
+    <h2>5. Consentimiento</h2>
+    <p>El envío del formulario de contacto y el uso de nuestro sitio web implica la aceptación de los términos aquí expuestos y la autorización para que <strong>Autimus IA</strong> trate la información provista exclusivamente con el fin de atender la consulta o solicitud realizada.</p>
+  </div>
+
+  <div class="legal-box">
+    <p><strong>Autimus IA</strong> · Buenos Aires, Argentina</p>
+    <p>Teléfono: +54 11 2701-5098 · Email: <a href="mailto:ingenieria@autimus.net.ar">ingenieria@autimus.net.ar</a></p>
+  </div>
+</main>
+
+<footer>
+  <div class="footer-copy">© 2025 Autimus IA · Todos los derechos reservados · Buenos Aires, Argentina</div>
+</footer>
+
+</body>
+</html>
