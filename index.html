@@ -1031,7 +1031,7 @@
     </div>
     <div class="hero-stats">
       <div>
-        <div class="stat-num">+20<span>años</span></div>
+        <div class="stat-num">+20<span>años de experiencia </span></div>
       </div>
     </div>
   </div>
@@ -1346,7 +1346,7 @@
             </div>
             <div>
               <div class="contact-item-label">Teléfono</div>
-              <div class="contact-item-text">+54 11 4000-0000</div>
+              <div class="contact-item-text">+54 11 2701-5098</div>
             </div>
           </div>
           <div class="contact-item">
@@ -1376,24 +1376,25 @@
         </div>
       </div>
 
-      <div class="contact-form">
+      <form class="contact-form" id="contactForm" action="https://formspree.io/f/mnjkjejp" method="POST">
+        <input type="hidden" name="_subject" value="Nueva consulta desde la web — Autimus IA">
         <div class="form-row">
           <div class="form-group">
             <label>Nombre</label>
-            <input type="text" placeholder="Juan García">
+            <input type="text" name="Nombre" placeholder="Juan García" required>
           </div>
           <div class="form-group">
             <label>Empresa</label>
-            <input type="text" placeholder="Industrias S.A.">
+            <input type="text" name="Empresa" placeholder="Industrias S.A.">
           </div>
         </div>
         <div class="form-group">
           <label>Email</label>
-          <input type="email" placeholder="juan@empresa.com.ar">
+          <input type="email" name="_replyto" placeholder="juan@empresa.com.ar" required>
         </div>
         <div class="form-group">
           <label>Área de interés</label>
-          <select>
+          <select name="Área de interés">
             <option value="">Seleccioná un servicio</option>
             <option>PLCs & Sistemas de Control</option>
             <option>Drives & Accionamientos</option>
@@ -1406,12 +1407,13 @@
         </div>
         <div class="form-group">
           <label>Descripción del proyecto</label>
-          <textarea placeholder="Contanos brevemente qué proceso necesitás automatizar o integrar..."></textarea>
+          <textarea name="Descripción del proyecto" placeholder="Contanos brevemente qué proceso necesitás automatizar o integrar..." required></textarea>
         </div>
-        <button class="form-submit" onclick="alert('¡Mensaje enviado! Nuestro equipo se contactará en menos de 24 horas.')">
+        <button class="form-submit" type="submit" id="formSubmitBtn">
           Enviar consulta →
         </button>
-      </div>
+        <p id="formStatus" style="display:none; margin-top:16px; font-family: var(--mono); font-size: 13px; text-align:center;"></p>
+      </form>
     </div>
   </div>
 </section>
@@ -1476,6 +1478,46 @@
       navToggle.classList.remove('open');
       navToggle.setAttribute('aria-expanded', 'false');
     });
+  });
+
+  // CONTACT FORM -> FormSpree
+  const contactForm = document.getElementById('contactForm');
+  const formSubmitBtn = document.getElementById('formSubmitBtn');
+  const formStatus = document.getElementById('formStatus');
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const originalBtnText = formSubmitBtn.textContent;
+    formSubmitBtn.disabled = true;
+    formSubmitBtn.textContent = 'Enviando...';
+    formStatus.style.display = 'none';
+
+    try {
+      const response = await fetch(contactForm.action, {
+        method: 'POST',
+        body: new FormData(contactForm),
+        headers: { 'Accept': 'application/json' }
+      });
+
+      if (response.ok) {
+        formStatus.textContent = '✓ ¡Mensaje enviado! Nuestro equipo se contactará en menos de 24 horas.';
+        formStatus.style.color = 'var(--teal)';
+        formStatus.style.display = 'block';
+        contactForm.reset();
+      } else {
+        formStatus.textContent = '✕ Hubo un error al enviar el mensaje. Por favor, intentá nuevamente o escribinos directamente.';
+        formStatus.style.color = 'var(--red)';
+        formStatus.style.display = 'block';
+      }
+    } catch (error) {
+      formStatus.textContent = '✕ Hubo un error de conexión. Por favor, intentá nuevamente.';
+      formStatus.style.color = 'var(--red)';
+      formStatus.style.display = 'block';
+    } finally {
+      formSubmitBtn.disabled = false;
+      formSubmitBtn.textContent = originalBtnText;
+    }
   });
 </script>
 
